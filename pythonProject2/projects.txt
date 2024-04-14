@@ -1,0 +1,21 @@
+category 1 
+
+{'project_id': 'AAM6545', 'name': 'road runners', 'category': '1', 'members count': 3, 'description': 'nothing', 'country': 'sri lanka', 'member 1 name': 'chethaka', 'member 2 name': 'minsadi', 'member 3 name': 'yenul'}
+
+category 2
+
+
+category 3
+
+
+category 4
+
+
+category 5
+
+{'project_id': 'AAM5465465', 'name': 'fsgfjs', 'category': '5', 'members count': 5, 'description': 'dfsdfsd', 'country': 'dfgsdjhgf', 'member 1 name': 'chethaka', 'member 2 name': 'pakaya', 'member 3 name': 'ghdfjsdghf', 'member 4 name': 'djshgfj', 'member 5 name': 'gfjsdh'}
+{'project_id': 'AAM2569', 'name': 'fking boys', 'category': '5', 'members count': 4, 'description': 'nothing', 'country': 'korea', 'member 1 name': 'dasun', 'member 2 name': 'yenul', 'member 3 name': 'skaun', 'member 4 name': 'thevinu'}
+
+category 6
+
+{'project_id': 'AAM6589', 'name': 'wisdom kingdom', 'category': '6', 'members count': 3, 'description': 'nothing', 'country': 'malaysia', 'member 1 name': 'geethmi', 'member 2 name': 'ranhoti', 'member 3 name': 'rajapaksha'}
