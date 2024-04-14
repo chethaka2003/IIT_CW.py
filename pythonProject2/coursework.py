@@ -274,31 +274,31 @@ def random_showing():
   print(f"{winners[0]['country']}{" " * (46 - len(winners[0]['country']))}{winners[1]['country']}{" " * (46 - len(winners[1]['country']))} {winners[2]['country']}")
   print(f"  {positions[0]}{" "*(46-len(positions[0]))} {positions[1]}{" "*(46-len(positions[1]))}{positions[2]}")
 
-# def main():
-#   while True:
-#     print("press 1 to add new project\n"
-#         "press 2 to delete a project\n"
-#         "press 3 to update a project\n"
-#         "press 4 to view projects \n"
-#         "press 5 to save projects \n"
-#           "press 6 to randomly show and give stars\n"
-#           "press 7 to exit the menu")
-#     user_input = input("enter a number from above category : ")
-#     if user_input == "1":
-#       adding_project_details()
-#     elif user_input == "2":
-#       deleting_project_details()
-#     elif user_input == "3":
-#       updating_project_details()
-#     elif user_input == "4":
-#       viewing_project_details()
-#     elif user_input == "5":
-#       saving_project_details()
-#     elif user_input == "6":
-#       random_showing()
-#     elif user_input == "7":
-#       break
-#
-# main()
+def main():
+  while True:
+    print("press 1 to add new project\n"
+        "press 2 to delete a project\n"
+        "press 3 to update a project\n"
+        "press 4 to view projects \n"
+        "press 5 to save projects \n"
+          "press 6 to randomly show and give stars\n"
+          "press 7 to exit the menu")
+    user_input = input("enter a number from above category : ")
+    if user_input == "1":
+      adding_project_details()
+    elif user_input == "2":
+      deleting_project_details()
+    elif user_input == "3":
+      updating_project_details()
+    elif user_input == "4":
+      viewing_project_details()
+    elif user_input == "5":
+      saving_project_details()
+    elif user_input == "6":
+      random_showing()
+    elif user_input == "7":
+      break
+
+main()
 
 
