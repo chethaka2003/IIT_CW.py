@@ -14,8 +14,7 @@ winners = []    #This is for add winners from text file
 
 def adding_project_details():  #creatiing new dictionary in projects
   '''This function is for add project details all the details saved into multi valued variable'''
-  project_id_input = input("Enter the project ID: ")
-  project_id = "AAM" + project_id_input
+  project_id = input("Enter the project ID: ")
   projects[project_id] = {}  #creating another dictionary in main dictianary by using project ID as the key of sub dictionary
   projects[project_id]['project_id'] = project_id   #addding project id into dictionary
 
