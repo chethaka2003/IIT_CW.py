@@ -12,7 +12,74 @@ category_6 = []
 
 winners = []    # This is for add winners from text file
 
-
+def reading_texts():
+    fhandle1 = open("category1.txt","r")
+    for x in fhandle1:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+    fhandle2 = open("category2.txt", "r")
+    for x in fhandle2:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+    fhandle3 = open("category3.txt", "r")
+    for x in fhandle3:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+    fhandle4 = open("category4.txt", "r")
+    for x in fhandle4:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+    fhandle5 = open("category5.txt", "r")
+    for x in fhandle5:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+    fhandle6 = open("category6.txt", "r")
+    for x in fhandle6:
+        result = eval(x)
+        if int(result['project_id']) in list(projects.keys()):
+            continue
+        else:
+            projects[int(result['project_id'])] = result
+def temp_saving_to_texts(pr_id,category):
+    fhandle1 = open("category1.txt","a+")
+    fhandle1.truncate(0)
+    fhandle2 = open("category2.txt", "a+")
+    fhandle2.truncate(0)
+    fhandle3 = open("category3.txt", "a+")
+    fhandle3.truncate(0)
+    fhandle4 = open("category4.txt", "a+")
+    fhandle4.truncate(0)
+    fhandle5 = open("category5.txt", "a+")
+    fhandle5.truncate(0)
+    fhandle6 = open("category6.txt", "a+")
+    fhandle6.truncate(0)
+    if category == 1:
+        fhandle1.write(f"{projects[pr_id]}\n")
+    elif category == 2:
+        fhandle2.write(f"{projects[pr_id]}\n")
+    elif category == 3:
+        fhandle3.write(f"{projects[pr_id]}\n")
+    elif category == 4:
+        fhandle4.write(f"{projects[pr_id]}\n")
+    elif category == 5:
+        fhandle5.write(f"{projects[pr_id]}\n")
+    elif category == 6:
+        fhandle6.write(f"{projects[pr_id]}\n")
 def adding_project_details():  # creating new dictionary in projects
   """ This function is for add project details all the details saved into multivalued variable """
   while True:
@@ -72,18 +139,24 @@ def adding_project_details():  # creating new dictionary in projects
   print(f"Your project {projects[project_id]['name']} is successfully added")
   print()
   print(projects)         # print showing project details
-
+  temp_saving_to_texts((projects[project_id]['category']),project_id)
 
 def deleting_project_details():  # deleting items in dictionary
   '''This function is for delete project details.You can delete any project detail by using this but you cant delete category and name.'''
+  reading_texts()
   while True:
-    search_id = input("enter the project id that you want to delete : ")  # requesting the project ID to remove elements
-    if search_id in projects:           # checking the availability of the project ID
-      print("project id is correct")
-      break
-    else:
-      print("Incorrect project ID please enter the project ID again")
-      continue
+      try:  # avoiding data type errors
+          # requesting the project ID to update elements
+          search_id = int(input("enter the project id that you want to update : "))
+      except:
+          print("please enter numbers only")
+      else:
+          if search_id in list(projects.keys()):  # checking the availability of project_id
+              print("project id is correct")
+              break
+          else:
+              print("Incorrect project ID please enter the project ID again")
+              continue
   print(
       " 1.press '1' to remove name\n"
       "2.press '2' to remove category\n"            # giving user a list to avoid mistakes
@@ -107,16 +180,21 @@ def deleting_project_details():  # deleting items in dictionary
             print("Invalid data type : Please enter numbers only")
             continue
         else:
-            break
-      for x in range(1, count + 1):
-        while True:
-          try:                  # checking the availability of that name
-            projects[search_id].pop(input("enter the member name that you want to remove : "))
-          except:
-            print("cant find a member name according to that name please enter that name again ")
-            continue
-          else:
-            break
+            if count >= int(projects[search_id]['members count']):
+                print('Team member count that you want to remove is higher than the existing team member count')
+                continue
+            else:
+                for x in range(1, count + 1):
+                    while True:
+                        try:  # checking the availability of that name
+                            projects[search_id].pop(input("enter the member name that you want to remove : "))
+                        except:
+                            print("cant find a member name according to that name please enter that name again ")
+                            continue
+                        else:
+                            break
+                break
+
     elif user_input2 == "4":
       projects[search_id].pop('description')
     elif user_input2 == "5":
@@ -132,10 +210,14 @@ def deleting_project_details():  # deleting items in dictionary
       break               # exiting the loop
     else:
       print("unrecognized input please enter your selection again : ")
+    all_keys = list(projects.keys())
+    for key in all_keys:
+        temp_saving_to_texts(key,projects[key]['category'])
 
 
 def updating_project_details():
   '''This is function is for update project details after adding project details but remember you cant change the project details on text file'''
+  reading_texts()
   while True:
     try:        # avoiding data type errors
         # requesting the project ID to update elements
@@ -159,7 +241,7 @@ def updating_project_details():
         "5.press '5' to update country\n"
         "7.press '7' to exit")
 
-    sub_ID = input("enter the sub category you want to delete : ")      # getting sub id through the list
+    sub_ID = input("enter the sub category that you want to update : ")      # getting sub id through the list
     if sub_ID == "1":
       projects[search_id]['name'] = input("Enter the new project name : ")      # updating elements
     elif sub_ID == "2":
@@ -167,7 +249,7 @@ def updating_project_details():
           "Please select the matching number for your project category and enter it below \n"
           "1.For ' Business internet' press '1' \n"
           "2.For 'Business Class email' press '2' \n"
-          "3.For 'Cloud Storage' press '3' \n"                      # giving the cetegory list to change
+          "3.For 'Cloud Storage' press '3' \n"                      # giving the category list to change
           "4.For 'IT Specialists and Services' press '4' \n"
           "5.For 'Systematized business phone lines' press '5' \n"
           "6.For 'AR and VR' press '6' ")
@@ -180,14 +262,23 @@ def updating_project_details():
           print("invalid project category please enter again")
           continue
     elif sub_ID == "3":
-      old_member_count = projects[search_id]['members count']         # assigning current memmber count into new variable
-      new_member_count = input("enter the new member count : ")         # getting new member count from the user
-      if old_member_count < new_member_count:                           # checking user is updating or deleting members
+     while True:
+          old_member_count = int(projects[search_id]['members count'])
+          # assigning current member count into new variable
+          try:              #avoiding errors
+            new_member_count = int(input("enter the new member count : "))         # getting new member count from the user
+          except:
+              print("please enter only numbers")
+              continue
+          else:
+              break
+
+     if old_member_count < new_member_count:                           # checking user is updating or deleting members
         for x in range(1, projects[search_id]['members count'] -old_member_count):    # adding new members name
           old_member_count+=1                                           # updating count value
           projects[search_id][f'member {old_member_count} name'] = input("enter the member name that you want to add : ")     # asking user input with correct member number
         projects['search_ID']['members count'] = new_member_count       #assigning new count
-      else:
+     else:
         print("you cant remove team members if you want to do that please select delete project details")         # giving user a messege
 
     elif sub_ID == "4":
@@ -201,7 +292,10 @@ def updating_project_details():
       break
     else:
       print("wrong input please enter again")
-
+    print(f"your updated project = {projects[search_id]}")
+    all_keys = list(projects.keys())
+    for key in all_keys:
+        temp_saving_to_texts(key, projects[key]['category'])
 
 def viewing_project_details():
   all_keys = list(projects.keys())  #getting all project IDs into a list
@@ -323,6 +417,10 @@ def main():
       random_showing()
     elif user_input == "7":
       break
+
+
+
+
 
 main()
 
