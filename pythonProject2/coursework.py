@@ -1,25 +1,38 @@
 import random
 
-projects = {}  # This is the main dictionary
+projects = {5456: {'project_id': 5456, 'name': '', 'category': '4', 'members count': 2, 'member 1 name': 'gjhj', 'member 2 name': 'jgjhg', 'description': 'nothing', 'country': 'srilanka'}}  # This is the main dictionary
 
-category_1 = []  #This is a sub list which used to insert projects according to category types
+# This is a sub list which used to insert projects according to category types
+category_1 = []
 category_2 = []
 category_3 = []
 category_4 = []
 category_5 = []
 category_6 = []
 
-winners = []    #This is for add winners from text file
+winners = []    # This is for add winners from text file
 
 
-def adding_project_details():  #creatiing new dictionary in projects
-  '''This function is for add project details all the details saved into multi valued variable'''
-  project_id = input("Enter the project ID: ")
-  projects[project_id] = {}  #creating another dictionary in main dictianary by using project ID as the key of sub dictionary
-  projects[project_id]['project_id'] = project_id   #addding project id into dictionary
-
-  projects[project_id]['name'] = input("Enter the project name: ")
-  print(                                                                                     #giving a list to select
+def adding_project_details():  # creating new dictionary in projects
+  """ This function is for add project details all the details saved into multivalued variable """
+  while True:
+      try:              # avoiding strings in project_ID
+        project_id = int(input("Enter the project ID: "))
+      except:
+          print("please enter numbers only")
+          continue
+      else:
+          break
+  projects[project_id] = {}             # creating dictionary in main dictionary by using project ID as the key
+  projects[project_id]['project_id'] = project_id   # adding project id into dictionary
+  while True:
+      projects[project_id]['name'] = input("Enter the project name: ")
+      if projects[project_id]['name'] == ' ':
+          print("cant be null value")
+          continue
+      else:
+          break
+  print(                                                                                     # giving a list to select
       "Please select the matching number for your project category and enter it below \n"
       "1.For ' Business internet' press '1' \n"
       "2.For 'Business Class email' press '2' \n"
@@ -29,36 +42,43 @@ def adding_project_details():  #creatiing new dictionary in projects
       "6.For 'AR and VR' press '6' ")
   while True:
     projects[project_id]['category'] = input("Enter the project Category: ")
-    if projects[project_id]['category'] in ('1', '2', '3', '4', '5', '6'):        #check weather category number is from the listcor not
+    # check weather category number is from the list or not
+    if projects[project_id]['category'] in ('1', '2', '3', '4', '5', '6'):
       break
     else:
       print("invalid project category please enter again")
       continue
 
-  while True:         #To avoid errors
+  while True:         # To avoid errors
     try:
       projects[project_id]['members count'] = int(input("Enter the team members count (PLEASE ENTER ONLY NUMBERS): "))  #To avoid data type errors
-    except:  #check if any error occurs
+    except:  # check if any error occurs
       print("Wrong data type please enter only numbers")
       continue
     else:
       break
-  projects[project_id]['description'] = input("Enter a brief description: ")      #getting other project deatils
-  projects[project_id]['country'] = input("Enter the country: ")
 
-  for i in range(1, projects[project_id]['members count'] +1):  #adiing members 1 after another
-    projects[project_id][f'member {i} name'] = input(
-        f"Enter the member {i} name : ")
+  for i in range(1, projects[project_id]['members count'] +1):  # adding members 1 after another
+    projects[project_id][f'member {i} name'] = input(f"Enter the member {i} name : ")
+
+  while True:   # data validation
+    projects[project_id]['description'] = input("Enter a brief description: ")      # getting other project details
+    projects[project_id]['country'] = input("Enter the country: ")
+    if projects[project_id]['description'] == ' ' and projects[project_id]['country'] == ' ':
+        print("You cant insert empty values")
+        continue
+    else:
+        break
   print(f"Your project {projects[project_id]['name']} is successfully added")
   print()
-  print(projects)         #print showing project details
+  print(projects)         # print showing project details
 
 
-def deleting_project_details():  #deleting items in dictionary
+def deleting_project_details():  # deleting items in dictionary
   '''This function is for delete project details.You can delete any project detail by using this but you cant delete category and name.'''
   while True:
-    search_id = input("enter the project id that you want to delete : ")  #requesting the project ID to remove elements
-    if search_id in projects:           #checking the availability of the project ID
+    search_id = input("enter the project id that you want to delete : ")  # requesting the project ID to remove elements
+    if search_id in projects:           # checking the availability of the project ID
       print("project id is correct")
       break
     else:
@@ -66,23 +86,23 @@ def deleting_project_details():  #deleting items in dictionary
       continue
   print(
       " 1.press '1' to remove name\n"
-      "2.press '2' to remove category\n"            #giving user a list to avoid mistakes
+      "2.press '2' to remove category\n"            # giving user a list to avoid mistakes
       "3.press '3' to remove team members\n"
       "4.press '4' to remove description\n"
       "5.press '5' to remove country\n"
       "6.press '6' to remove all elements\n"
       "7.press '7' to exit")
 
-  while True:               #to continue the loop
-    user_input2 = input("enter a subcategory number that you want to remove according to the above list (press 7 to exit from this) : ")      #asking user category number to delete
+  while True:               # to continue the loop
+    user_input2 = input("enter a subcategory number that you want to remove according to the above list (press 7 to exit from this) : ")      # asking user category number to delete
     if user_input2 == "1":
-      print("you cant remove the name If you want to update it please press 7 and go to the main category and select update project details")   #avoiding the deletion of name
+      print("you cant remove the name If you want to update it please press 7 and go to the main category and select update project details")   # avoiding the deletion of name
     elif user_input2 == "2":
-      print("you cant remove the category If you want to update it please press 7 and go to the main category and select update project details")       #avoiding the deletion of category
+      print("you cant remove the category If you want to update it please press 7 and go to the main category and select update project details")       # avoiding the deletion of category
     elif user_input2 == "3":
-      while True:           #avoiding data type errors
+      while True:           # avoiding data type errors
         try:
-            count = int(input("How many team members do you want to remove"))  #asking user to how many users to delete
+            count = int(input("How many team members do you want to remove"))  # asking user to how many users to delete
         except:
             print("Invalid data type : Please enter numbers only")
             continue
@@ -90,7 +110,7 @@ def deleting_project_details():  #deleting items in dictionary
             break
       for x in range(1, count + 1):
         while True:
-          try:                  #checking the availability of that name
+          try:                  # checking the availability of that name
             projects[search_id].pop(input("enter the member name that you want to remove : "))
           except:
             print("cant find a member name according to that name please enter that name again ")
@@ -102,14 +122,14 @@ def deleting_project_details():  #deleting items in dictionary
     elif user_input2 == "5":
       print("you cant remove the country If you want to update it please press 7 and go to the main category and select update project details")
     elif user_input2 == "6":
-      approve = input(f"are you sure you want to remove all elements in {search_id} press'0' to no press '1' to yes : ")  #getting user approve
+      approve = input(f"are you sure you want to remove all elements in {search_id} press'0' to no press '1' to yes : ")  # getting user approve
       if approve == 1:
         projects[search_id].clear()
       else:
         print("request declined")
         continue
     elif user_input2 == "7":
-      break               #exiting the loop
+      break               # exiting the loop
     else:
       print("unrecognized input please enter your selection again : ")
 
@@ -117,13 +137,18 @@ def deleting_project_details():  #deleting items in dictionary
 def updating_project_details():
   '''This is function is for update project details after adding project details but remember you cant change the project details on text file'''
   while True:
-    search_id = input("enter the project id that you want to update : ")  # requesting the project ID to update elements
-    if search_id in projects:
-      print("project id is correct")
-      break
+    try:        # avoiding data type errors
+        # requesting the project ID to update elements
+        search_id = int(input("enter the project id that you want to update : "))
+    except:
+        print("please enter numbers only")
     else:
-      print("Incorrect project ID please enter the project ID again")
-      continue
+        if search_id in list(projects.keys()):  # checking the availability of project_id
+            print("project id is correct")
+            break
+        else:
+          print("Incorrect project ID please enter the project ID again")
+          continue
 
   while True:
     print(
@@ -134,35 +159,36 @@ def updating_project_details():
         "5.press '5' to update country\n"
         "7.press '7' to exit")
 
-    sub_ID = input("enter the sub category you want to delete : ")      #getting sub id through the list
+    sub_ID = input("enter the sub category you want to delete : ")      # getting sub id through the list
     if sub_ID == "1":
-      projects[search_id]['name'] = input("Enter the new project name : ")      #updating elements
+      projects[search_id]['name'] = input("Enter the new project name : ")      # updating elements
     elif sub_ID == "2":
       print(
           "Please select the matching number for your project category and enter it below \n"
           "1.For ' Business internet' press '1' \n"
           "2.For 'Business Class email' press '2' \n"
-          "3.For 'Cloud Storage' press '3' \n"                      #giving the cetegory list to change
+          "3.For 'Cloud Storage' press '3' \n"                      # giving the cetegory list to change
           "4.For 'IT Specialists and Services' press '4' \n"
           "5.For 'Systematized business phone lines' press '5' \n"
           "6.For 'AR and VR' press '6' ")
       while True:
         projects[search_id]['category'] = input("enter the new category : ")
-        if projects[search_id]['category'] in ('1', '2', '3', '4', '5', '6'):         #checking the availablity of user inputs
+        # checking the availability of user inputs
+        if projects[search_id]['category'] in ('1', '2', '3', '4', '5', '6'):
           break
         else:
           print("invalid project category please enter again")
           continue
     elif sub_ID == "3":
-      old_member_count = projects['search_ID']['members count']         #assigning current memmber count into new variable
-      new_member_count = input("enter the new member count : ")         #getting new member count from the user
-      if old_member_count < new_member_count:                           #checking user is updating or deleting members
-        for x in range(1, projects[search_id]['members count'] -old_member_count):    #adding new members name
-          old_member_count+=1                                           #updating count value
-          projects[search_id][f'member {old_member_count} name'] = input("enter the member name that you want to add : ")     #asking user input with correct member number
+      old_member_count = projects[search_id]['members count']         # assigning current memmber count into new variable
+      new_member_count = input("enter the new member count : ")         # getting new member count from the user
+      if old_member_count < new_member_count:                           # checking user is updating or deleting members
+        for x in range(1, projects[search_id]['members count'] -old_member_count):    # adding new members name
+          old_member_count+=1                                           # updating count value
+          projects[search_id][f'member {old_member_count} name'] = input("enter the member name that you want to add : ")     # asking user input with correct member number
         projects['search_ID']['members count'] = new_member_count       #assigning new count
       else:
-        print("you cant remove team members if you want to do that please select delete project details")         #giving user a messege
+        print("you cant remove team members if you want to do that please select delete project details")         # giving user a messege
 
     elif sub_ID == "4":
       member_name = input("Enter the member name that you want to change : ")
