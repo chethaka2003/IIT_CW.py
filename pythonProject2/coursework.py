@@ -71,7 +71,7 @@ def temp_saving_to_texts(pr_id,category):
         fhandle4.write(f"{projects[pr_id]}\n")
     elif category == '5':
         fhandle5.write(f"{projects[pr_id]}\n")
-    elif category == '6':
+    else:
         fhandle6.write(f"{projects[pr_id]}\n")
 def adding_project_details():  # creating new dictionary in projects
   """ This function is for add project details all the details saved into multivalued variable """
@@ -132,11 +132,12 @@ def adding_project_details():  # creating new dictionary in projects
   print(f"Your project {projects[project_id]['name']} is successfully added")
   print()
   print(projects)         # print showing project details
-  temp_saving_to_texts(projects[project_id]['category'],project_id)
+  temp_saving_to_texts(project_id,projects[project_id]['category'])
 
 def deleting_project_details():  # deleting items in dictionary
   '''This function is for delete project details.You can delete any project detail by using this but you cant delete category and name.'''
   reading_texts()
+  stop = 0 # controlling variable
   while True:
       try:  # avoiding data type errors
           # requesting the project ID to update elements
@@ -167,37 +168,30 @@ def deleting_project_details():  # deleting items in dictionary
       print("you cant remove the category If you want to update it please press 7 and go to the main category and select update project details")       # avoiding the deletion of category
     elif user_input2 == "3":
       while True:           # avoiding data type errors
-        try:
-            count = int(input("How many team members do you want to remove : "))  # asking user to how many users to delete
-        except:
-            print("Invalid data type : Please enter numbers only")
-            continue
-        else:
-            if count >= int(projects[search_id]['members count']):      # looping through team members
-                print('Team member count that you want to remove is higher than the existing team member count')
+        for i in range(1,projects[search_id]['members count']+1):
+            try:
+                user_input_3 = input(f"If you want to remove {projects[search_id][f'member {i} name']} press '1' if you want to skip press '0 ' ")
+            except:
                 continue
             else:
-                for i in range(1,projects[search_id]['members count']+1):
-                    print(f"press {i} to remove this member {projects[search_id][f'member {i} name']}")
-
-                for x in range(1, count + 1):       # looping through new member count
-                    while True:
-                        user_input3 = input("Enter member number that you want remove from the above list : ")
-
-                        projects[search_id].pop(f'member {user_input3} name')
-                        print(" team member removed successfully ")
-                        projects[search_id]['members count'] -= int(count)
-                        print(f'updated project = {projects[search_id]}')
-                break
+                if user_input_3 == '0':
+                    continue
+                else:
+                    projects[search_id].pop(f'member {i} name')
+                    continue
+        print(f"New project details = {projects[search_id]}")
+        break
 
     elif user_input2 == "4":
       projects[search_id].pop('description')
+      print('description removed successfully')
     elif user_input2 == "5":
       print("you cant remove the country If you want to update it please press 7 and go to the main category and select update project details")
     elif user_input2 == "6":
       approve = input(f"are you sure you want to remove all elements in {search_id} press'0' to no press '1' to yes : ")  # getting user approve
-      if approve == 1:
-        projects[search_id].clear()
+      if approve == '1':
+        stop = 1        # stopping saving when cleared a project
+        projects.pop(search_id)
       else:
         print("request declined")
         continue
@@ -205,10 +199,11 @@ def deleting_project_details():  # deleting items in dictionary
       break               # exiting the loop
     else:
       print("unrecognized input please enter your selection again : ")
-    deleting_project_details()
+    clear_all_texts()
     all_keys = list(projects.keys())  # getting all keys in main dictionary
-    for key in all_keys:
-        temp_saving_to_texts(key, projects[key]['category'], )  # saving all details into texts
+    if stop != 1:
+        for key in all_keys:
+            temp_saving_to_texts(key, projects[key]['category'] )  # saving all details into texts
 
 
 def updating_project_details():
@@ -235,7 +230,7 @@ def updating_project_details():
         "3.press '3' to update team members count\n"
         "4.press '4' to update team members name\n"
         "5.press '5' to update country\n"
-        "7.press '7' to exit")
+        "7.press '6' to exit")
 
     sub_ID = input("enter the sub category that you want to update : ")      # getting sub id through the list
     if sub_ID == "1":
@@ -261,7 +256,7 @@ def updating_project_details():
         old_member_count = int(projects[search_id]['members count'])
         new_member_count = int(input("enter the new member count : "))         # getting new member count from the user
         if int(old_member_count) < int(new_member_count):                           # checking user is updating or deleting members
-            for x in range(1, projects[search_id]['members count'] -old_member_count):    # adding new members name
+            while old_member_count < new_member_count:    # adding new members name
                 old_member_count+=1                                           # updating count value
                 projects[search_id][f'member {old_member_count} name'] = input("enter the member name that you want to add : ")     # asking user input with correct member number
             projects[search_id]['members count'] = new_member_count       # assigning new count
@@ -269,13 +264,26 @@ def updating_project_details():
             print("you cant remove team members if you want to do that please select delete project details")         # giving user a messege
 
     elif sub_ID == "4":
-      member_name = input("Enter the member name that you want to change : ")
-      projects[search_id][member_name] = input("enter the new member name that you want to update : ")
+        while True:  # avoiding data type errors
+            for i in range(1, projects[search_id]['members count'] + 1):
+                try:
+                    user_input_3 = input(
+                        f"If you want to change {projects[search_id][f'member {i} name']} press '1' if you want to skip press '0 ' ")
+                except:
+                    continue
+                else:
+                    if user_input_3 == '0':
+                        continue
+                    else:
+                        projects[search_id][f'member {i} name'] = input("Enter the new name : ")
+                        continue
+            print(f"New project details = {projects[search_id]}")
+            break
 
     elif sub_ID == "5":
       projects[search_id]['country'] = input("enter the new country : ")
 
-    elif sub_ID == "7":
+    elif sub_ID == "6":
       break
     else:
       print("wrong input please enter again")
@@ -335,7 +343,6 @@ def saving_project_details():
 
 def random_showing():
   '''This function show random spotlight case'''
-  saving_project_details()
   selected_lines = []
   fhandle =open("projects.txt", "r")
   for i in fhandle:
@@ -352,28 +359,28 @@ def random_showing():
       print(line)
       while True:
           stars_1st_judge = input("Enter the number of stars that first judge gives (stars are given between 1-5): ")
-          if len(stars_1st_judge)>5:      # checking that stars are below 5
+          if int(len(stars_1st_judge))>5:      # checking that stars are below 5
               print("Invalid input : please enter stars between 1 - 5")
               continue
           else:
               break
       while True:
           stars_2nd_judge = input("Enter the number of stars that second judge gives (stars are given between 1-5): ")
-          if len(stars_1st_judge)>5:
+          if int(len(stars_1st_judge))>5:
               print("Invalid input : please enter stars between 1 - 5")
               continue
           else:
               break
       while True:
           stars_3rd_judge = input("Enter the number of stars that third judge gives (stars are given between 1-5): ")
-          if len(stars_1st_judge)>5:
+          if int(len(stars_1st_judge))>5:
               print("Invalid input : please enter stars between 1 - 5")
               continue
           else:
               break
       while True:
           stars_4th_judge = input("Enter the number of stars that fourth judge gives (stars are given between 1-5): ")
-          if len(stars_1st_judge)>5:
+          if int(len(stars_1st_judge))>5:
               print("Invalid input : please enter stars between 1 - 5")
               continue
           else:
@@ -392,12 +399,14 @@ def random_showing():
     for y in range(x+1,len(winners)):
       if winners[x]['average'] >= winners[y]['average']:      # comparing 1st element with second element
           winners[x], winners[y] = winners[y], winners[x]     # changing the order
+  print(winners)
   max_points = round(winners[-1]['average'])
   printable_lines = {}
   max_length = 0
+  rank1 = ['3rd place','2nd place','1st place']
   for j in range(-1,-4,-1):
       stars = round(winners[j]['average'])
-      rank = f"{winners[j]['average']}"
+      rank = f"{rank1[j]}"
       name = f"name:{winners[j]['name']}"
       country = f"country:{winners[j]['country']}"
       printables = [country, name, rank]
@@ -409,7 +418,6 @@ def random_showing():
 
       for i in range(max_points + 3, max_points, -1):
           list_id = i
-          context = ''
           if list_id not in printable_lines:
               printable_lines[list_id] = []
           # appending strings
@@ -448,7 +456,7 @@ def random_showing():
 def clear_all_texts():              # clear all texts
     '''This function clear all the texts'''
     fhandle1 = open("category1.txt", "a+")
-    fhandle1.truncate(0)
+    fhandle1.truncate(0)                    # making byte value into 0
     fhandle2 = open("category2.txt", "a+")
     fhandle2.truncate(0)
     fhandle3 = open("category3.txt", "a+")
@@ -485,6 +493,9 @@ def main():
         for key in all_keys:
             temp_saving_to_texts(key,projects[key]['category'])
         break
+    else:
+        print("incorrect input")
+        continue
 
 
 
