@@ -1,13 +1,13 @@
 import random
 
-projects = {} # This is the main dictionary
+projects = {}  # This is the main dictionary
 
 
 winners = []    # This is for add winners from text file
 
 def reading_texts():
     '''This function is used to read all temperory text files data'''
-    fhandle1 = open("category1.txt","r")
+    fhandle1 = open("category1.txt", "r")
     for x in fhandle1:
         result = eval(x)
         if int(result['project_id']) in list(projects.keys()):
@@ -51,7 +51,7 @@ def reading_texts():
             projects[int(result['project_id'])] = result
 def temp_saving_to_texts(pr_id,category):
     '''This function is used to save project details in temperory text files'''
-    fhandle1 = open("category1.txt","a+")
+    fhandle1 = open("category1.txt", "a+")
 
     fhandle2 = open("category2.txt", "a+")
 
@@ -111,14 +111,14 @@ def adding_project_details():  # creating new dictionary in projects
 
   while True:         # To avoid errors
     try:
-      projects[project_id]['members count'] = int(input("Enter the team members count (PLEASE ENTER ONLY NUMBERS): "))  #To avoid data type errors
+      projects[project_id]['members count'] = int(input("Enter the team members count (PLEASE ENTER ONLY NUMBERS): "))  # To avoid data type errors
     except:  # check if any error occurs
       print("Wrong data type please enter only numbers")
       continue
     else:
       break
 
-  for i in range(1, projects[project_id]['members count'] +1):  # adding members 1 after another
+  for i in range(1, projects[project_id]['members count'] + 1):  # adding members 1 after another
     projects[project_id][f'member {i} name'] = input(f"Enter the member {i} name : ")
 
   while True:   # data validation
@@ -137,7 +137,7 @@ def adding_project_details():  # creating new dictionary in projects
 def deleting_project_details():  # deleting items in dictionary
   '''This function is for delete project details.You can delete any project detail by using this but you cant delete category and name.'''
   reading_texts()
-  stop = 0 # controlling variable
+  stop = 0  # controlling variable
   while True:
       try:  # avoiding data type errors
           # requesting the project ID to update elements
@@ -277,7 +277,6 @@ def updating_project_details():
                     else:
                         projects[search_id][f'member {i} name'] = input("Enter the new name : ")
                         continue
-            print(f"New project details = {projects[search_id]}")
             break
 
     elif sub_ID == "5":
